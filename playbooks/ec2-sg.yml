@@ -1,0 +1,57 @@
+---
+  - name: Add security groups if they don't exist
+    hosts: localhost
+    connection: local
+    gather_facts: False
+
+    tasks:
+
+      - name:  Adding webserver group
+        local_action:  
+          module: ec2_group 
+          vpc_id: vpc-a5770ec1
+          region: us-west-2
+          name: webserver-sg
+          state: present
+          description: Webserver Security Group - Allows HTTP and HTTPS inbound, HTTP outbound
+          rules: 
+            - proto: tcp  
+              from_port: 80  
+              to_port: 80  
+              cidr_ip: 0.0.0.0/0
+            - proto: tcp  
+              from_port: 443  
+              to_port: 443  
+              cidr_ip: 0.0.0.0/0
+          rules_egress: 
+            - proto: tcp  
+              from_port: 80  
+              to_port: 80  
+              cidr_ip: 0.0.0.0/0
+
+      - name:  Adding 10-net-host2host_ssh group
+        local_action:  
+          module: ec2_group 
+          vpc_id: vpc-a5770ec1
+          region: us-west-2
+          name: 10-net-host2host_ssh
+          state: present
+          description: 10-net SSH Security Group - Allows SSH access to RFC 1918 network
+          rules: 
+            - proto: tcp  
+              from_port: 22  
+              to_port: 22  
+              cidr_ip: 10.0.0.0/8
+
+      - name:  Adding 10-net-puppets group
+        local_action:  
+          module: ec2_group 
+          vpc_id: vpc-a5770ec1
+          region: us-west-2
+          name: 10-net-puppets
+          state: present
+          description: group for all 10-net puppet agent nodes
+          #  
+          #  This group has no rules.  This group is added to the puppetmaster group as 
+          #  a source for an inbound rule allowing traffic to all nodes to be controlled/manipulated simultaneously.
+          #    

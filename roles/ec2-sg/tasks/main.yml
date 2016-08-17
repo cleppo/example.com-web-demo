@@ -1,0 +1,19 @@
+---
+
+- name: Add security groups if they don't exist
+  ec2_group:
+    vpc_id: vpc-a5770ec1
+    name: webserver-sg
+    description: Webserver Security Group - Allows HTTP and HTTPS inbound, HTTP outbound
+    rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+      - proto: tcp
+        from_port: 443
+        to_port: 443
+    rules_egress:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+

@@ -1,0 +1,10 @@
+---
+  - name: Search ec2
+    hosts: localhost
+    vars:
+      
+    ec2_remote_facts:
+      filters:
+    "tag:Name": "{{hostname}}"
+    region: "{{aws_region}}"
+    register: ec2_info

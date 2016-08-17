@@ -1,0 +1,13 @@
+---
+- hosts: "security_group_10_net_puppets"    
+  vars:
+    epel_repo_url: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+    puppet_repo_url: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+
+  become: true
+  user: ec2-user
+
+  roles:
+    - { role: common }
+
+

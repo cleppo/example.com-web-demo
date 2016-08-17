@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  vars:
+    aws_resource_tags: {
+     'Name': 'web02',
+     'Env': 'PROD',
+     'Project': 'interview_example_site'
+    }
+    region: us-west-2
+    ec2_groups: ['10-net-puppets','10-net-host2host_ssh']
+    ec2_vpc_subnet_id: subnet-69be3f1f
+    ec2_vpc_id: vpc-a5770ec1
+    ec2_key_name: ec2_admin-key
+    ec2_assign_public_ip: yes
+    ec2_instance_type: t2.micro
+    ec2_base_image: ami-775e4f16
+#    state: absent
+#    ec2_volumes:
+#      - device_name: /dev/sda1
+#        volume_type: gp2
+#        volume_size: 200
+#        delete_on_termination: true
+  roles:
+    - { role: ec2-provisioning }

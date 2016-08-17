@@ -1,0 +1,16 @@
+---
+apache_enablerepo: "epel"  #  SET THIS
+
+apache_listen_ip: "*"
+apache_listen_port: "80"
+apache_listen_port_ssl: 443
+
+#apache_vhosts_ssl: 
+#   - { 
+#     servername: "web01.example.com",
+#     documentroot: "/var/www/vhosts/www.example.com",
+#     certificate_file: "/etc/httpd/certs/example.com.crt",
+#     certificate_key_file: "/etc/httpd/certs/example.com.key"
+#     # Optional.
+  #   certificate_chain_file: "/path/to/certificate_chain.crt"
+#   }

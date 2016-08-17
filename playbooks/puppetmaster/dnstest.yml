@@ -1,0 +1,132 @@
+---
+  - name: Provision Puppet Nodes on EC2
+    hosts: localhost
+    connection: local
+    gather_facts: False
+    tags: provisioning
+    # Necessary Variables for creating/provisioning the EC2 Instances
+    vars:
+      inventory_dir: /etc/ansible
+      instance_type: t2.micro
+      security_group1: 10-net-puppets
+      security_group2: 10-net-host2host_ssh
+      image: ami-775e4f16
+      region: us-west-2 
+      keypair: ec2_admin-key 
+      vpc_subnet_id: subnet-69be3f1f
+      instance_hostname: dns02.example.com
+      private_ip: 10.0.1.100
+      count: 1
+
+    # Task that will be used to Launch/Create an EC2 Instance
+    tasks:
+      - name: Launch the new EC2 Instance
+        ec2: 
+           group: ["{{ security_group1 }}","{{ security_group2 }}"]
+           instance_type: "{{ instance_type}}"
+           image: "{{ image }}"
+           wait: true
+           region: "{{ region }}"
+           keypair: "{{ keypair }}"
+           vpc_subnet_id: "{{ vpc_subnet_id }}"
+           assign_public_ip: yes
+           private_ip: "{{ private_ip }}"
+           count: 1
+           instance_tags:
+               Name: "{{ instance_hostname }}"
+
+        register: ec2
+
+      - name: Add the puppets group if it doesn't exist
+        local_action: lineinfile
+                      dest="/etc/ansible/hosts"
+                      state=present
+                      line="[puppets]"
+
+      - name: Add the newly created EC2 instance(s) to the puppets host group 
+        local_action: lineinfile
+                      dest="/etc/ansible/hosts"
+                      regexp={{ item.private_ip }}
+                      insertafter="[puppets]" line={{ item.private_ip }}
+        with_items: "{{ ec2.instances }}"
+
+      - name: Wait for SSH to come up
+        local_action: wait_for
+                      host={{ item.private_ip }}
+                      port=22
+                      state=started
+        with_items: "{{ ec2.instances }}"
+
+      - meta: refresh_inventory
+
+      - name: accept new ssh fingerprints
+        shell: ssh-keyscan "{{ instance_hostname }}", "{{ item.private_ip }}" >> ~/.ssh/known_hosts
+        with_items: "{{ ec2.instances }}"
+
+  - name: Set the hostname and DNS resolvers - PERMANENTLY
+    hosts: ec2.instances
+    become: true
+
+    tasks: 
+
+      - name: Edit /etc/hostname
+        copy: content="{{ ec2_tag_Name }}" dest='/etc/hostname' force='yes'
+
+      - name: Set hostname
+        shell: 'hostname "{{ ec2_tag_Name }}"'
+
+      - name: Set resolvers in resolv.conf file
+        lineinfile: dest=/etc/resolv.conf state=present regexp="nameserver" line="nameserver 10.0.1.253"
+
+  - name:  Install EPEL repo and puppet package
+    hosts: "{{ ec2_tag_Name }}"
+    become: true
+    vars:
+      epel_repo_url: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-7.noarch.rpm
+      puppet_repo_url: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+    user: ec2-user
+    gather_facts: False
+
+    tasks:
+
+    - name: Install EPEL repo.
+      yum:
+        name: "{{ epel_repo_url }}"
+        state: present
+      register: result
+      until: '"failed" not in result'
+      retries: 5
+      delay: 10
+
+    - name: Install Puppetlabs repo.
+      yum:
+        name: "{{ puppet_repo_url }}"
+        state: present
+      register: result
+      until: '"failed" not in result'
+      retries: 5
+      delay: 10
+
+    - name: Install puppet
+      yum: 
+        name: "puppet"
+        state: present
+      register: result
+      until: '"failed" not in result'
+      retries: 5
+      delay: 10
+
+    - name: Install git
+      yum: 
+        name: "git"
+        state: present
+      register: result
+      until: '"failed" not in result'
+      retries: 5
+      delay: 10
+
+    - name: create bootstrap dirs
+      file: path=/root/bootstrap/{{item}} state=directory
+      with_items:
+          - repos
+

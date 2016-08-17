@@ -1,0 +1,64 @@
+---
+- name: Install EPEL repo
+  yum: 
+    name: "{{ epel_repo_url }}"
+    state: present
+  register: result
+  until: '"failed" not in result'
+  retries: 5
+  delay: 10
+
+- name: Install Puppet repo
+  yum:
+    name: "{{ puppet_repo_url }}"
+    state: present
+  register: result
+  until: '"failed" not in result'
+  retries: 5
+  delay: 10
+
+#- name: Install EPEL repo.
+#  yum_repository:
+#    name: epel
+#    description: EPEL YUM repo
+#    baseurl: "{{ epel_repo_url }}"
+#    state: present
+#  register: result
+#  until: '"failed" not in result'
+#  retries: 5
+#  delay: 10
+
+#- name: Install puppetlabs repo.
+#  yum_repository:
+#    name: puppetlabs
+#    description: PUPPETLABS YUM repo
+#    baseurl: "{{ puppet_repo_url }}"
+#    state: present
+#  register: result
+#  until: '"failed" not in result'
+#  retries: 5
+#  delay: 10
+
+- name: Install puppet
+  yum: 
+    name: "puppet"
+    state: present
+  register: result
+  until: '"failed" not in result'
+  retries: 5
+  delay: 10
+
+- name: Install git
+  yum: 
+    name: "git"
+    state: present
+  register: result
+  until: '"failed" not in result'
+  retries: 5
+  delay: 10
+
+- name: create some one-off dirs
+  file: path=/var/tmp/{{item}} state=directory
+  with_items:
+      - repos
+      - modules

@@ -1,0 +1,47 @@
+---
+- name: create apache support directories
+  file: path={{item}} state=directory recurse=yes
+  with_items:
+      - /var/www/vhosts/www.example.com
+
+- name: copy example.com index file to web hosts
+  copy:
+    src: files/index.example.com
+    dest: "/var/www/vhosts/www.example.com/index.html"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: WORKAROUND - copy example.com index file to default docroot
+  #  
+  #  This step is just a workaround to allow browsers to view the correct index.html 
+  #  easily without a DNS entry for the example URL.  With curl you can just change 
+  #  the host header to www.example.com to get the correct effect.  
+  #
+  copy:
+    src: files/index.example.com
+    dest: "/var/www/html/index.html"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: make sure SSL certificate is installed
+  copy:
+    content: '{{ ssl_certificate }}' #  TODO:  FIX this tag (and the contents in the vault file) 
+                                     #         so that it references specific vhosts.  
+                                     #         This will allow multiple certs in one file.
+    dest: "/etc/httpd/certs/example.com.crt"  #  TODO:  VARIABLEIZE THIS FOR IDEMPOTENCY
+    owner: root
+    group: root
+    mode: 0644
+
+- name: make sure SSL private key is installed
+  copy:
+    content: '{{ ssl_private_key }}'
+    dest: "/etc/httpd/certs/example.com.key"   #  TODO:  VARIABLEIZE THIS FOR IDEMPOTENCY
+
+- name: Ensure Apache has selected state and enabled on boot.
+  service:
+    name: "{{ apache_service }}"
+    state: "{{ apache_state }}"
+    enabled: yes
