@@ -2,7 +2,9 @@
 - name: launch or terminate instances
   ec2:
     assign_public_ip: "{{ ec2_assign_public_ip | default('no') }}"
-    count: "{{ ec2_count | default(1) }}"
+#    exact_count: "{{ ec2_count | default(1) }}"
+    exact_count: "{{ ec2_count }}"
+    count_tag: "{{ aws_resource_tags }}"
     ebs_optimized: "{{ ec2_ebs_optimized | default(false) }}"
     groups: "{{ ec2_groups }}"
     instance_type: "{{ ec2_instance_type | default('t2.micro') }}"
@@ -14,7 +16,7 @@
     region: "{{ region }}"
     vpc_subnet_id: "{{ ec2_vpc_subnet_id }}"
     instance_tags: "{{ aws_resource_tags }}"
-    state: "{{ state | default('present') }}"
+    #state: "{{ state | default('present') }}"
     volumes: "{{ ec2_volumes | default(omit) }}"
   register: ec2
   
@@ -24,7 +26,7 @@
 
 - name: Wait for SSH to come up
   wait_for: host="{{ item.private_ip }}" port=22 delay=60 timeout=320 state=started
-  with_items: "{{ ec2.instances }}"
+  with_items: "{{ ec2.instances }}"  #  This currently hangs when hosts are being terminated.  I need to set this item list to only match hosts that are still running.
 
 - name: set fact ec2_ami_instance_id
   set_fact: ec2_ami_instance_id="{{ ec2.instance_ids[0] }}"
