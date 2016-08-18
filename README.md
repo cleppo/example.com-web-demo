@@ -21,7 +21,20 @@ You will notice that I've installed the Puppetlabs repo and git on these hosts. 
 
 TODO:  It is likely that the standitup.yml playbook will end up being my site.yml playbook.  I would like to have the provisioning role create a set number of hosts with a predetermined prefix (like "web" for webservers) followed by a meaningful number (like the last two octets of the RFC 1918 IP address).
 
+ TODO:  figure out how to limit the number of hosts that exist in a given group (i.e.,number of webservers).  This count just causes the plays to add new hosts and iterate over them.
+
+TODO:  Get Travis CI tests working with meaningful success states.
+
+TODO - Make ssh fingerprint step clean up duplicate entries (from multiple runs creating the same host)
+
+TODO:  FIX certificate tags (and the contents in the vault file) so that multiple certs can exist in the same vault.
+
+TODO:  Variablize the cert and key filenames for better idempotency.
+
+
 License
 -------
 
 BSD
+
+

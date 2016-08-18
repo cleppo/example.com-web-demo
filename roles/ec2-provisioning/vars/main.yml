@@ -1,1 +1,2 @@
 ---
+#actual_host_count: "{{ "play_hosts" | length }}"

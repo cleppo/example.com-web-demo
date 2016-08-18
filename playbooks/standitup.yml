@@ -3,11 +3,12 @@
   hosts: localhost
   vars:
     aws_resource_tags: {
-     'Name': 'web03',
+     'Name': 'webserver',
      'Env': 'PROD',
      'Project': 'interview_example_site'
     }
     region: us-west-2
+    ec2_count: 5  #  TODO:  figure out how to limit the number of hosts that exist.  This count just causes the plays to add new hosts and iterate over them.
     ec2_groups: ['10-net-puppets','10-net-host2host_ssh','webserver-sg']
     ec2_vpc_subnet_id: subnet-69be3f1f
     ec2_vpc_id: vpc-a5770ec1
