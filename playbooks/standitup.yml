@@ -29,6 +29,7 @@
 - name:  adding common packages and repos to all nodes
   hosts: "security_group_10_net_puppets"    
   vars:
+    hostname: web-*
     epel_repo_url: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
     puppet_repo_url: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 
