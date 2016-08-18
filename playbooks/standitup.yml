@@ -3,7 +3,7 @@
   hosts: localhost
   vars:
     aws_resource_tags: {
-     'Name': 'web05',
+     'Name': 'web03',
      'Env': 'PROD',
      'Project': 'interview_example_site'
     }
@@ -40,12 +40,19 @@
 
 ##########################
 
-- name: Installing configuring Apache
+- name: Installing Apache
+  hosts: "tag_Name_web*"
+  become: true
+  roles:
+    - { role: geerlingguy.apache }
+
+##########################
+
+- name: Configuring example.com vhost
   hosts: "tag_Name_web*"
   become: true
   vars_files:
-    - /etc/ansible/roles/geerlingguy.apache/vars/main.yml
-    - /etc/ansible/roles/geerlingguy.apache/vars/certificates.yml
+    - /etc/ansible/roles/example.com-web/vars/main.yml
+    - /etc/ansible/roles/example.com-web/vars/certificates.yml
   roles:
-    - { role: geerlingguy.apache }
     - { role: example.com-web }
