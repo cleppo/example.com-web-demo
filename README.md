@@ -23,6 +23,8 @@ TODO:  It is likely that the standitup.yml playbook will end up being my site.ym
 
  TODO:  figure out how to limit the number of hosts that exist in a given group (i.e.,number of webservers).  This count just causes the plays to add new hosts and iterate over them.  I am aware that AWS has constructs that perform this function, but I want to make my Ansible configuration stop when it reaches the correct number of hosts.
 
+FIXED THIS ^^.  However, now the SSH wait step currently hangs when hosts are being terminated.  I need to set this item list to only match hosts that are still running.
+
 TODO:  Get Travis CI tests working with meaningful success states.
 
 TODO - Make ssh fingerprint step clean up duplicate entries (from multiple runs creating the same host)
