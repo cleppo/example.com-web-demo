@@ -11,7 +11,7 @@
           module: ec2_group 
           vpc_id: vpc-a5770ec1
           region: us-west-2
-          name: webserver-sg
+          name: webserver-{{ item }}-sg
           state: present
           description: Webserver Security Group - Allows HTTP and HTTPS inbound, HTTP outbound
           rules: 
@@ -28,6 +28,9 @@
               from_port: 80  
               to_port: 80  
               cidr_ip: 0.0.0.0/0
+        with_items:
+          - prod
+          - qa
 
       - name:  Adding 10-net-host2host_ssh group
         local_action:  

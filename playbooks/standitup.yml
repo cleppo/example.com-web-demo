@@ -1,16 +1,18 @@
+#
+# EXPECTED USAGE:  ansible-playbook --ask-vault-pass standitup.yml --extra-vars "count=2 startindex=1 env=prod class=webserver"
+#
 ---
 - name: provisioning host(s)
   hosts: localhost
   vars:
-    ec2_host_class: webserver
     aws_resource_tags: {
-     'Name': '{{ ec2_host_class }}',
-     'Env': 'PROD',
+     'Name': '{{ env }}_{{ class }}',
+     'Env': '{{ env }}',
      'Project': 'interview_example_site'
     }
-    region: us-west-2
-    ec2_count: 2  #  TODO:  figure out how to limit the number of hosts that exist.  This count just causes the plays to add new hosts and iterate over them.
-    ec2_groups: ['10-net-puppets','10-net-host2host_ssh','webserver-sg']
+    region: us-west-2 # TODO:  turn this into a variable after I get this config to work the way I want
+    ec2_count: '{{ count }}'  
+    ec2_groups: ['10-net-puppets','10-net-host2host_ssh','{{ class }}-{{ env }}-sg']
     ec2_vpc_subnet_id: subnet-69be3f1f
     ec2_vpc_id: vpc-a5770ec1
     ec2_key_name: ec2_admin-key
@@ -31,7 +33,7 @@
 - name:  adding common packages and repos to all nodes
   hosts: "security_group_10_net_puppets"    
   vars:
-    hostname: web-*
+    nodename: "{{ env }}{{ class }}*"
     epel_repo_url: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
     puppet_repo_url: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 
@@ -44,7 +46,7 @@
 ##########################
 
 - name: Installing Apache
-  hosts: "tag_Name_web*"
+  hosts: "tag_Name_{{ env }}_{{ class }}"
   become: true
   roles:
     - { role: geerlingguy.apache }
@@ -52,7 +54,7 @@
 ##########################
 
 - name: Configuring example.com vhost
-  hosts: "tag_Name_web*"
+  hosts: "tag_Name_{{ env }}_{{ class }}"
   become: true
   vars_files:
     - /etc/ansible/roles/example.com-web/vars/main.yml

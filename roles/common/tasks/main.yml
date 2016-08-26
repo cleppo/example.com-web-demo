@@ -1,14 +1,16 @@
 ---
-# set the friendly hostname from the playbook variable
+# NOTE:  Pets vs Cattle question -- Assuming somebody might care about setting unique hostnames,
+# Here is how to set a friendly hostname from the playbook variable 'nodename'
+#  
 - name: set hostname
-  hostname: name={{ hostname.replace('*', ansible_all_ipv4_addresses[0].split('.')[3]) }}
+  hostname: name={{ nodename.replace('*', ansible_all_ipv4_addresses[0].split('.')[3]) }}
 
-# add the new hostname to the hosts file
+# add the new nodename to the hosts file
 - name: add to hosts
   lineinfile: >
     dest=/etc/hosts
     regexp='^127\.0\.0\.1'
-    line='127.0.0.1 localhost {{ hostname.replace("*", ansible_all_ipv4_addresses[0].split(".")[3]) }}'
+    line='127.0.0.1 localhost {{ nodename.replace("*", ansible_all_ipv4_addresses[0].split(".")[3]) }}'
     state=present
 
 - name: Install EPEL repo
