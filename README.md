@@ -19,7 +19,7 @@ Notes
 
 You will notice that I've installed the Puppetlabs repo and git on these hosts.  The goal here is to use ansible to stand up my enviroment and test using Puppet to manage my configuration as well.  My initial foray into creating playbooks is under the playbooks/puppetserver directory.  I created a giant playbook that ends up building a puppet master.  My ultimate goal will be to create an ansible puppet master role (WHY??? Just 'cause I can.   :D   ).
 
-TODO:  It is likely that the standitup.yml playbook will end up being my site.yml playbook.  I would like to have the provisioning role create a set number of hosts and either create or destroy them as needed at playbook runtime by specifying a count value.
+TODO:  It is likely that the standitup.yml playbook will end up being my site.yml playbook.  I would like to have the provisioning role create a set number of hosts and either create or destroy them as needed at playbook runtime by specifying a count value at playbook runtime.
 
  TODO:  the SSH wait step currently hangs when hosts are being terminated.  I need to set this task to skip when the count value specified at runtime is equal to or greater than the existing number of nodes.
 
@@ -31,6 +31,12 @@ TODO:  FIX certificate tags (and the contents in the vault file) so that multipl
 
 TODO:  Variablize the cert and key filenames for better idempotency.
 
+References:
+-------
+
+Since this is a work-in-progress, for learning/demonstration purposes I do not have a reliable set of references/sources for the code shown here.  Once I get everything working at a satisfactory level, I will credit my sources as best I can.
+
+So far I will say that Jeff Geerling's work has been a great influence in my learning so far and I will reference his source material in this section when I am able to.
 
 License
 -------
