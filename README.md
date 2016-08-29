@@ -19,11 +19,9 @@ Notes
 
 You will notice that I've installed the Puppetlabs repo and git on these hosts.  The goal here is to use ansible to stand up my enviroment and test using Puppet to manage my configuration as well.  My initial foray into creating playbooks is under the playbooks/puppetserver directory.  I created a giant playbook that ends up building a puppet master.  My ultimate goal will be to create an ansible puppet master role (WHY??? Just 'cause I can.   :D   ).
 
-TODO:  It is likely that the standitup.yml playbook will end up being my site.yml playbook.  I would like to have the provisioning role create a set number of hosts with a predetermined prefix (like "web" for webservers) followed by a meaningful number (like the last two octets of the RFC 1918 IP address).
+TODO:  It is likely that the standitup.yml playbook will end up being my site.yml playbook.  I would like to have the provisioning role create a set number of hosts and either create or destroy them as needed at playbook runtime by specifying a count value.
 
- TODO:  figure out how to limit the number of hosts that exist in a given group (i.e.,number of webservers).  This count just causes the plays to add new hosts and iterate over them.  I am aware that AWS has constructs that perform this function, but I want to make my Ansible configuration stop when it reaches the correct number of hosts.
-
-FIXED THIS ^^.  However, now the SSH wait step currently hangs when hosts are being terminated.  I need to set this item list to only match hosts that are still running.
+ TODO:  the SSH wait step currently hangs when hosts are being terminated.  I need to set this task to skip when the count value specified at runtime is equal to or greater than the existing number of nodes.
 
 TODO:  Get Travis CI tests working with meaningful success states.
 
