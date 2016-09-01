@@ -8,7 +8,7 @@ TODO:  Get Travis CI tests working with meaningful success states.
 Requirements
 ------------
 
-No pre-reqs for this role since it is the basic setup for all hosts -- essentially STEP TWO after the ec2-provisioning step.
+No pre-reqs for this role since it is the basic setup for all hosts -- essentially this is STEP TWO after the ec2-provisioning step in the playbook I've constructed.
 
 Role Variables
 --------------

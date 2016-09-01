@@ -3,7 +3,7 @@
 - name: Add security groups if they don't exist
   ec2_group:
     vpc_id: vpc-a5770ec1
-    name: webserver-sg
+    name: webserver-sg # TODO:  create a variablized item list so that you can pass variables to this play.
     description: Webserver Security Group - Allows HTTP and HTTPS inbound, HTTP outbound
     rules:
       - proto: tcp

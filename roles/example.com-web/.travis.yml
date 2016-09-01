@@ -37,7 +37,8 @@ script:
   # Ansible syntax check.
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
 
-  # Install geerlingguy.apache role - NOTE:  I'm looking for a better way to handle this and make the vhost role more idempotent.
+  # Install geerlingguy.apache role - TODO NOTE:  I'm looking for a better way to handle this part.  I need to get the base install of Apache with configuration AND I need to create directories and files that are needed for the vhost.
+
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-galaxy install geerlingguy.apache'
 
   # Test role.

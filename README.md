@@ -17,7 +17,7 @@ I've used the Apache role created by Jeff Geerling with no changes.  The goal is
 Notes
 -----
 
-You will notice that I've installed the Puppetlabs repo and git on these hosts.  The goal here is to use ansible to stand up my enviroment and test using Puppet to manage my configuration as well.  My initial foray into creating playbooks is under the playbooks/puppetserver directory.  I created a giant playbook that ends up building a puppet master.  My ultimate goal will be to create an ansible puppet master role (WHY??? Just 'cause I can.   :D   ).
+You may notice that I've included the Puppetlabs repo and git in the code.  My intent here is to use ansible to stand up my enviroment and test using Puppet to manage my configuration as well.  FYI - my initial foray into creating playbooks is under the playbooks/puppetserver directory (playbooks/puppetmaster/gimme_puppet.yml.2.0).  I created a giant playbook that ends up building a puppet master.  It's not very elegant and more of a laundry-list script instead of good playbook code, but it works.  If I ever get time I may play around with it and see if I can turn it into a respectable role and submit it to Ansible Galaxy.  (WHY??? Just 'cause I can.   :D   ).
 
 TODO:  It is likely that the standitup.yml playbook will end up being my site.yml playbook.  I would like to have the provisioning role create a set number of hosts and either create or destroy them as needed at playbook runtime by specifying a count value at playbook runtime.
 
@@ -34,7 +34,7 @@ TODO:  Variablize the cert and key filenames for better idempotency.
 References:
 -------
 
-Since this is a work-in-progress, for learning/demonstration purposes I do not have a reliable set of references/sources for the code shown here.  Once I get everything working at a satisfactory level, I will credit my sources as best I can.
+Since this is a work-in-progress, for learning/demonstration purposes I do not yet have a reliable set of references/sources for the code shown here.  Once I get everything working at a satisfactory level, I will credit my sources as best I can.
 
 So far I will say that Jeff Geerling's work has been a great influence in my learning so far and I will reference his source material in this section when I am able to.
 

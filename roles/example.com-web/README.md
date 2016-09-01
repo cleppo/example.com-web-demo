@@ -4,7 +4,7 @@ Interview Project website-specific code/content.
 
 Role to provide specific vhost configuration and content (index.html in this example) for the fictitious site www.example.com.  
 
-In the real world, the site content would be deployed via automated code release workflow/continuous integration.
+In the real world, the site content would usually be deployed via automated code release workflow/continuous integration.
 
 Requirements
 ------------
