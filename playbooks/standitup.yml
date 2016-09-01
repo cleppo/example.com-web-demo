@@ -51,6 +51,8 @@
   roles:
     - { role: geerlingguy.apache }
 
+#  TODO:  Start using the vhosts.conf Jinja template provided with this role instead of the tasks in the vhost role below.
+#
 ##########################
 
 - name: Configuring example.com vhost
