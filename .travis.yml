@@ -1,0 +1,7 @@
+---
+sudo: required
+
+env:
+  - TEST_DIR=example.com-web
+
+before_script: cd $TEST_DIR 
