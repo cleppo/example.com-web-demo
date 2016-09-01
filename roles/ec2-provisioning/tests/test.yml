@@ -2,7 +2,7 @@
 #  
 #  TODO:  Set up meaningful tests for provisioned hosts
 #
-- hosts: localhost
-  remote_user: root
-  roles:
-    - ec2-provisioning
+#- hosts: localhost
+#  remote_user: root
+#  roles:
+#    - ec2-provisioning

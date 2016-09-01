@@ -1,5 +1,7 @@
 EXAMPLE.COM-WEB ROLE
 
+[![Build Status](https://travis-ci.org/cleppo/example.com-web-demo.svg?branch=master)](https://travis-ci.org/cleppo/example.com-web-demo)
+
 Interview Project website-specific code/content.
 
 Role to provide specific vhost configuration and content (index.html in this example) for the fictitious site www.example.com.  
