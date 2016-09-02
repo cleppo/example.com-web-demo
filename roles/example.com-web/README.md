@@ -1,6 +1,6 @@
 EXAMPLE.COM-WEB ROLE
 
-[![Build Status](https://travis-ci.org/cleppo/example.com-web-demo.svg?branch=master)](https://travis-ci.org/cleppo/example.com-web-demo)
+#[![Build Status](https://travis-ci.org/cleppo/example.com-web-demo.svg?branch=master)](https://travis-ci.org/cleppo/example.com-web-demo)
 
 Interview Project website-specific code/content.
 
