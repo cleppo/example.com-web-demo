@@ -23,7 +23,7 @@ TODO:  It is likely that the standitup.yml playbook will end up being my site.ym
 
  TODO:  the SSH wait step currently hangs when hosts are being terminated.  I need to set this task to skip when the count value specified at runtime is equal to or greater than the existing number of nodes.
 
-TODO:  Get Travis CI tests working with meaningful success states.
+**TODO:  Get Travis CI tests working with meaningful success states.**
 
 TODO - Make ssh fingerprint step clean up duplicate entries (from multiple runs creating the same host)
 
