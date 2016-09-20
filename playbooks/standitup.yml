@@ -45,21 +45,23 @@
 
 ##########################
 
+- name: Configuring example.com vhost
+  hosts: "tag_Name_{{ env }}_{{ class }}"
+  become: true
+  vars_files:
+    - /etc/ansible/roles/example.com-web/vars/certificates.yml
+  roles:
+    - { role: example.com-web }
+
+##########################
+
 - name: Installing Apache
   hosts: "tag_Name_{{ env }}_{{ class }}"
   become: true
+  vars_files:
+    - /etc/ansible/roles/example.com-web/vars/main.yml
   roles:
     - { role: geerlingguy.apache }
 
 #  TODO:  Start using the vhosts.conf Jinja template provided with this role instead of the tasks in the vhost role below.
 #
-##########################
-
-- name: Configuring example.com vhost
-  hosts: "tag_Name_{{ env }}_{{ class }}"
-  become: true
-  vars_files:
-    - /etc/ansible/roles/example.com-web/vars/main.yml
-    - /etc/ansible/roles/example.com-web/vars/certificates.yml
-  roles:
-    - { role: example.com-web }

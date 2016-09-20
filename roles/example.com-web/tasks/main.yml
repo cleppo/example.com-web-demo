@@ -11,6 +11,7 @@
   file: path={{item}} state=directory recurse=yes
   with_items:
       - /var/www/vhosts/www.example.com
+      - /var/www/html
 
 - name: copy example.com index file to web hosts
   copy:
