@@ -17,11 +17,13 @@ I've used the Apache role created by Jeff Geerling with no changes.  The goal is
 Notes
 -----
 
-You may notice that I've included the Puppetlabs repo and git in the code.  My intent here is to use ansible to stand up my enviroment and test using Puppet to manage my configuration as well.  FYI - my initial foray into creating playbooks is under the playbooks/puppetserver directory (playbooks/puppetmaster/gimme_puppet.yml.2.0).  I created a giant playbook that ends up building a puppet master.  It's not very elegant and more of a laundry-list script instead of good playbook code, but it works.  If I ever get time I may play around with it and see if I can turn it into a respectable role and submit it to Ansible Galaxy.  (WHY??? Just 'cause I can.   :D   ).
+You may notice that I've included the Puppetlabs repo and git in the code.  My intent here is to use ansible to stand up my enviroment and test using Puppet to manage my configuration as well.  
+
+FYI - my initial foray into creating playbooks is under the playbooks/puppetserver directory (playbooks/puppetmaster/gimme_puppet.yml.2.0).  I created a giant playbook that ends up building a puppet master.  It's not very elegant and more of a laundry-list script instead of good playbook code, but it works.  If I ever get time I may play around with it and see if I can turn it into a respectable role and submit it to Ansible Galaxy.  (WHY??? Just 'cause I can.   :D   ).
 
 TODO:  It is likely that the standitup.yml playbook will end up being my site.yml playbook.  I would like to have the provisioning role create a set number of hosts and either create or destroy them as needed at playbook runtime by specifying a count value at playbook runtime.
 
- TODO:  the SSH wait step currently hangs when hosts are being terminated.  I need to set this task to skip when the count value specified at runtime is equal to or greater than the existing number of nodes.
+ TODO:  the SSH wait step currently hangs when hosts are being terminated.  I need to set this task to skip when the count value specified at runtime is equal to or less than the existing number of nodes.
 
 **TODO:  Get Travis CI tests working with meaningful success states.**
 
